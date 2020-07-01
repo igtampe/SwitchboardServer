@@ -37,7 +37,7 @@
             this.StatusLabel = new System.Windows.Forms.Label();
             this.DisconnectButton = new System.Windows.Forms.Button();
             this.ConnectionDetailsButton = new System.Windows.Forms.Button();
-            this.ManageUsersButton = new System.Windows.Forms.Button();
+            this.ServerSettingsButton = new System.Windows.Forms.Button();
             this.ServerBWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
@@ -57,6 +57,7 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
+            this.ConnectionsListView.FullRowSelect = true;
             this.ConnectionsListView.HideSelection = false;
             this.ConnectionsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
@@ -120,35 +121,36 @@
             this.ConnectionDetailsButton.Text = "Details";
             this.ConnectionDetailsButton.UseVisualStyleBackColor = true;
             // 
-            // ManageUsersButton
+            // ServerSettingsButton
             // 
-            this.ManageUsersButton.Location = new System.Drawing.Point(291, 44);
-            this.ManageUsersButton.Name = "ManageUsersButton";
-            this.ManageUsersButton.Size = new System.Drawing.Size(90, 23);
-            this.ManageUsersButton.TabIndex = 6;
-            this.ManageUsersButton.Text = "Settings";
-            this.ManageUsersButton.UseVisualStyleBackColor = true;
+            this.ServerSettingsButton.Location = new System.Drawing.Point(291, 44);
+            this.ServerSettingsButton.Name = "ServerSettingsButton";
+            this.ServerSettingsButton.Size = new System.Drawing.Size(90, 23);
+            this.ServerSettingsButton.TabIndex = 6;
+            this.ServerSettingsButton.Text = "Settings";
+            this.ServerSettingsButton.UseVisualStyleBackColor = true;
             // 
             // ServerBWorker
             // 
             this.ServerBWorker.WorkerReportsProgress = true;
             this.ServerBWorker.WorkerSupportsCancellation = true;
-            this.ServerBWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerBWorker_DoWork);
-            this.ServerBWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ServerBWorker_ReportProgress);
-            this.ServerBWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ServerBWorker_Done);
+            this.ServerBWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ServerTime);
+            this.ServerBWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.RefreshListview);
+            this.ServerBWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ServerDone);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(401, 497);
-            this.Controls.Add(this.ManageUsersButton);
+            this.Controls.Add(this.ServerSettingsButton);
             this.Controls.Add(this.ConnectionDetailsButton);
             this.Controls.Add(this.DisconnectButton);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.ConnectionsListView);
             this.Controls.Add(this.StartStopServerButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Switchboard Server";
@@ -168,8 +170,8 @@
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.Button DisconnectButton;
         private System.Windows.Forms.Button ConnectionDetailsButton;
-        private System.Windows.Forms.Button ManageUsersButton;
-        private System.ComponentModel.BackgroundWorker ServerBWorker;
+        private System.Windows.Forms.Button ServerSettingsButton;
+        public System.ComponentModel.BackgroundWorker ServerBWorker;
     }
 }
 

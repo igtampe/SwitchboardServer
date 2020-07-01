@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SwitchboardServerForm;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -6,155 +7,50 @@ using System.Net.Sockets;
 
 namespace Switchboard {
 
-    public class SwitchboardServer {
+    /// <summary>Holds one (1) Switchboard Server. Part of a complete breakfast</summary>
+    public partial class SwitchboardServer {
 
-        protected String ServerName="SWITCHBOARD DEFAULT SERVER";
-        protected String ServerVersion="BETA 1.0";
+        //------------------------------[Variables]------------------------------
 
+        /// <summary>The "Pen" that will write to logs.</summary>
         protected StreamWriter LogPen;
 
+        /// <summary>List that holds active connections</summary>
         protected List<SwitchboardConnection> Connections;
+
+        /// <summary>List that holds extensions</summary>
         protected List<SwitchboardExtension> Extensions;
+
+        /// <summary>List that holds all of the users</summary>
         protected List<SwitchboardUser> Users;
 
+        /// <summary>Allow anonymous users</summary>
         protected bool AllowAnonymous;
+
+        /// <summary>The Default, Anonymous User</summary>
         protected SwitchboardUser AnonymousUser;
 
+        /// <summary>Welcome message that's sent to a user when they connect, and when they type WELCOME</summary>
         protected String WelcomeMessage;
 
-        private TcpListener Ears;
+        /// <summary>The "Ears" of this server, that will listen for other connections.</summary>
+        private readonly TcpListener Ears;
 
-        public class SwitchboardConnection { 
-            
-            //god help me
-            private SwitchboardServer Daddy;
+        /// <summary>Holds the main form (Mostly so we can report progress)</summary>
+        private readonly MainForm TheForm;
 
-            private DateTime ConnectedSince;
-            private IPEndPoint IP;
-            private SwitchboardUser User;
+        //------------------------------[Switchboard Main Extension]------------------------------
 
-            private NetworkStream River;
-            private Socket TheSocket;
-
-            private List<string> PreviousCommands;
-            public bool IsConnected => TheSocket.Connected;
-
-            public SwitchboardConnection(SwitchboardServer Daddy,Socket MainSocket) {
-            
-                ConnectedSince = DateTime.Now;
-                IP = (IPEndPoint)MainSocket.RemoteEndPoint;
-                River = new NetworkStream(MainSocket);
-                TheSocket = MainSocket;
-
-                this.Daddy = Daddy;
-
-                Daddy.ToLog("New user connected from " + IP.Address.ToString());
-
-                User = Daddy.AnonymousUser;
-
-                PreviousCommands = new List<String>();
-
-            }
-
-            /// <summary>Ticks this connection</summary>
-            /// <returns>True if the connection should be maintained, false otherwise.</returns>
-            public void Tick() {
-
-                //If there's data available.
-                if(River.DataAvailable) {
-                    Daddy.ToLog("Attempting to read message from " + IP.Address.ToString());
-
-                    //Save all the bytes to an array
-                    List<byte> Bytes = new List<byte>();
-                    while(River.DataAvailable) { Bytes.Add((byte)River.ReadByte()); }
-
-                    //Parse that array of bytes as an ASCII encoded string
-                    String Command = System.Text.Encoding.ASCII.GetString(Bytes.ToArray());
-
-                    //Handle VBNullChar or \0 in this case.
-                    Command = Command.Replace("\0","");
-
-                    //Add this to the list of commands.
-                    PreviousCommands.Add(Command);
-
-                    //Now let's try to parse it.
-                    String Reply="";
-
-                    String[] CommandSplit = Command.Split(' ');
-                    switch(CommandSplit[0].ToUpper()) {
-                        case "WELCOME":
-                            Reply = Daddy.GetWelcomeMessage();
-                            break;
-                        case "LOGIN":
-                            if(CommandSplit.Length != 3) { Reply = "Could not log you in, invalid login details"; } else {
-                                SwitchboardUser myUser = null;
-
-                                //Find the user.
-                                foreach(SwitchboardUser User in Daddy.Users) { if(User.GetUsername() == CommandSplit[1]) { myUser = User; break; } }
-
-                                if(myUser != null && myUser.VerifyPassword(CommandSplit[2])) {
-                                    User = myUser;
-                                    Reply = "Successfully logged in as " + User.GetUsername();
-                                } else {
-                                    Reply = "Could not log you in, invalid login details";
-                                }
-                            }
-                            break;
-                        case "LOGOUT":
-                            if(User == Daddy.AnonymousUser) { Reply = "You're already logged out!"; } else {
-                                User.SetOnline(false);
-                                User = Daddy.AnonymousUser;
-                                Reply = "You've been successfully logged out.";
-                            }
-                            break;
-                        case "CLOSE":
-                            River.Close();
-                            TheSocket.Close();
-                            return;
-                        default:
-                            if(!Daddy.AllowAnonymous && User == Daddy.AnonymousUser) { Reply = "You're unauthorized to run any other commands."; } else { 
-                                foreach(SwitchboardExtension extension in Daddy.Extensions) {
-                                    if(!String.IsNullOrEmpty(Reply)) { break; }
-                                    Reply = extension.Parse(ref User,Command);
-                                }
-                                if(string.IsNullOrEmpty(Reply)) { Reply = "Could not parse command [" + Command + "]"; }
-                            }
-                            break;
-                    }
-
-                    //Time to return whatever it is we got.
-
-                    Byte[] ReturnBytes = System.Text.Encoding.ASCII.GetBytes(Reply);
-                    River.Write(ReturnBytes,0,ReturnBytes.Length);
-                    
-                    //and we're done.
-
-                }
-
-                return;
-            }
-
-            public List<String> GetPrevCommands() { return PreviousCommands; }
-            public SwitchboardUser getUser() { return User; }
-            public DateTime getConnectedSince() { return ConnectedSince; }
-            public IPEndPoint getIP() { return IP; }
-
-            public void Close() {
-                River.Close();
-                TheSocket.Close();
-            }
-
-        
-        }
-
+        /// <summary>Holds the main Switchboard Extension</summary>
         private class SwitchboardMainExtension:SwitchboardExtension {
 
-            private SwitchboardServer HeadServer;
+            //~~~~~~~~~~~~~~{Variables}~~~~~~~~~~~~~~
+            private readonly SwitchboardServer HeadServer;
 
-            public SwitchboardMainExtension(SwitchboardServer Main) : base("MAIN","1.0") {
-                HeadServer = Main;
-            }
+            //~~~~~~~~~~~~~~{Constructor}~~~~~~~~~~~~~~
+            public SwitchboardMainExtension(SwitchboardServer Main) : base("MAIN","1.0") {HeadServer = Main;}
 
+            //~~~~~~~~~~~~~~{Functions}~~~~~~~~~~~~~~
             public override string Help() {
                 return "Switchboard Main Extension [Version " + Version + "\n" +
                     "\n" +
@@ -168,7 +64,7 @@ namespace Switchboard {
                     "LOGOUT                         : Logs you out of this terminal, maintains you connected as an anonymous user.\n" +
                     "WELCOME                        : Shows this server's welcome message" +
                     "\n" +
-                    "More user options are available on the server";
+                    "More user options are available on the server GUI program";
             }
 
             public override string Parse(ref SwitchboardUser User,string Command) {
@@ -176,66 +72,67 @@ namespace Switchboard {
 
                 switch(CommandSplit[0].ToUpper()) {
                     case "VER":
-                        return HeadServer.ServerName + " [Version " + HeadServer.ServerVersion + "]";
+                        //Return version of this server
+                        return SwitchboardConfiguration.ServerName + " [Version " + SwitchboardConfiguration.ServerVersion + "]";
 
                     case "SHOWEXTENSIONS":
+                        //Show all extensions on this server
                         String AllExtensions = HeadServer.Extensions.Count + " Extension(s)\n\n";
                         foreach(SwitchboardExtension Extension in HeadServer.Extensions) {AllExtensions += Extension.GetName() + " [Version " + Extension.GetVersion() + "]\n";}
                         return AllExtensions;
 
                     case "HELP":
+                        //Show Server Help (Or the help of a specific command)
                         if(CommandSplit.Length == 1) { return Help(); }
                         foreach(SwitchboardExtension Extension in HeadServer.Extensions) {if(Extension.GetName().ToUpper() == CommandSplit[1]) { return Extension.Help(); }}
                         return "Could not find extension " + CommandSplit[1];
 
                     case "SETPASS":
+                        //Set the password of the current user
                         if(CommandSplit.Length != 3 || Command.Contains("~")) { return "Could not update password due to invalid characters"; }
-                        if(User == HeadServer.AnonymousUser) { return "cannot set password if user is not logged in"}
+                        if(User == HeadServer.AnonymousUser) { return "cannot set password if user is not logged in"; }
 
-                        if(User.setPassword(CommandSplit[1],CommandSplit[2])) {
-
-                            HeadServer.SaveUsers();
+                        if(User.SetPassword(CommandSplit[1],CommandSplit[2])) {
+                            HeadServer.SaveUsers(); //Make sure to save all users.
                             return "Successfully updated password!"; 
                         }
 
                         return "Server was unable to update your password";
 
                     default:
+                        //Return nada because we could not parse it.
                         return null;
                 }
 
             }
-
-            public override void Tick() {}
         }
 
-        protected void SaveUsers() {
+        //------------------------------[Constructor]------------------------------
 
-            if(File.Exists("SwitchboardUsers.txt")) { File.Delete("SwitchboardUsers.txt"); }
-            StreamWriter Pen = File.CreateText("SwitchboardUsers.txt");
+        /// <summary>Creates and starts a Switchboard Server</summary>
+        /// <param name="IP">IP to listen on</param>
+        /// <param name="Port">Port to listen on</param>
+        /// <param name="WelcomeMessage">Welcome message for each user.</param>
+        /// <param name="AllowAnonymous">Allow Anonymous Users on this server.</param>
+        public SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous) {
 
-            foreach(SwitchboardUser User in Users) { Pen.WriteLine(User.ToString()); }
-            Pen.Close();
-        }
-
-        /// <summary>Gets the welcome message, and appends a warning if anonymous use is not allowed.</summary>
-        /// <returns></returns>
-        protected string GetWelcomeMessage() {
-            if(AllowAnonymous) { return WelcomeMessage; }
-            return WelcomeMessage + "\n\nThis server requires that you log in. Use Login (Username) (Password) to log in.";
-        }
-
-        public SwitchboardServer(String IP, int Port, ref List<SwitchboardExtension> Extensions, String WelcomeMessage, bool AllowAnonymous) {
+            //Get us our pen
             LogPen = File.AppendText("SwitchboardLog.log");
-            LogPen.WriteLine("\n\n"+ServerName + " [Version " + ServerVersion + "]\n\n" + "[" + DateTime.Now.ToShortDateString() + "] Starting Server...");
+            LogPen.WriteLine("\n\n"+SwitchboardConfiguration.ServerName + " [Version " + SwitchboardConfiguration.ServerVersion + "]\n\n" + "[" + DateTime.Now.ToShortDateString() + "] Starting Server...");
 
+            //Get us the main form
+            this.TheForm = TheForm;
+
+            //Get the welcome message
             this.WelcomeMessage = WelcomeMessage;
 
+            //Register the extensions from the Switchboard Configuration and add the default extensions.
             ToLog("Registering extensions...");
-            this.Extensions = Extensions;
+            Extensions = SwitchboardConfiguration.ServerExtensions();
             Extensions.Add(new DummyExtension());
             Extensions.Add(new SwitchboardMainExtension(this));
 
+            //Load users
             ToLog("Loading Users...");
             Users = new List<SwitchboardUser>();
             if(File.Exists("SwitchboardUsers.txt")) {
@@ -246,14 +143,18 @@ namespace Switchboard {
                 foreach(String UserString in UserStrings) {Users.Add(new SwitchboardUser(UserString));}
             }
 
+            //Allow Anonymous and generate the anonymous user.
             this.AllowAnonymous = AllowAnonymous;
             AnonymousUser = new SwitchboardUser("Anonymous","",0,"");
 
+            //Display a warning in case there are no users and we do not allow anonymous access.
             if(Users.Count == 0 && !AllowAnonymous) { ToLog("WARNING! No registered users and now annonymous access! You won't be able to actually use this server!"); }
 
+            //Create the Connections list
             ToLog("One last thing...");
             Connections = new List<SwitchboardConnection>();
 
+            //Finally, Actually start the server.
             ToLog("Actually starting the server...");
             Ears = new TcpListener(IPAddress.Parse(IP),Port);
             Ears.Start();
@@ -261,45 +162,85 @@ namespace Switchboard {
 
         }
 
+        //------------------------------[Getters]------------------------------
+
+        /// <summary>Gets the welcome message, and appends a warning if anonymous use is not allowed.</summary>
+        /// <returns></returns>
+        protected string GetWelcomeMessage() {
+            if(AllowAnonymous) { return WelcomeMessage; }
+            return WelcomeMessage + "\n\nThis server requires that you log in. Use Login (Username) (Password) to log in.";
+        }
+
+        /// <summary>Gets All Active Connections</summary>
+        public List<SwitchboardConnection> GetConnections() { return Connections; }
+
+        //------------------------------[Functions]------------------------------
+
+        /// <summary>
+        /// Ticks the server. Each tick, the server: <br></br><br></br>
+        /// <list type="number">
+        /// <item>Checks if there's a pending connection, and if so allows them in.</item>
+        /// <item>Ticks each connection, essentially processing any pending commands they have.</item>
+        /// <item>Checks if any connection has been closed, and if so, removes it.</item>
+        /// <item>Ticks each extension.</item>
+        /// </list></summary>
         public void Tick() {
 
             //Check if we need to let in another connection.
             if(Ears.Pending()) {
-                //Let them in to the system.
-                Connections.Add(new SwitchboardConnection(this,Ears.AcceptSocket()));
-            }
+                Connections.Add(new SwitchboardConnection(this,Ears.AcceptSocket())); //Let them in to the system.
+                TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
+            } 
 
             //ok now check every connection to see if they're pending.
-            foreach(SwitchboardConnection Connection in Connections) { 
-                Connection.Tick();
-                if(!Connection.IsConnected) { Connections.Remove(Connection); } //if the connection was closed, remove it from the list
+            foreach(SwitchboardConnection Connection in Connections.ToArray()) { Connection.Tick();}
+
+            //I'm pretty sure this is a bit of an innefficient way to do this, but if we turn it into an array, its no longer by ref, no? I don't think we can use that and tick each user the same way.
+            //Plus this allows us to modify the root list, since we're itterating over an array, not the list.
+
+            foreach(SwitchboardConnection Connection in Connections.ToArray()) {
+                if(!Connection.IsConnected) { 
+                    Connections.Remove(Connection);  //if the connection was closed, remove it from the list
+                    TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
+                }
             }
 
-            //now tick every extension
+            //Now tick every extension
             foreach(SwitchboardExtension extension in Extensions) {extension.Tick();}
 
         }
 
+        /// <summary>Closes the server</summary>
         public void Close() {
-            foreach(SwitchboardConnection Connection in Connections) {
-                Connection.Tick();
-                if(!Connection.IsConnected) { Connections.Remove(Connection); } //if the connection was closed, remove it from the list
-            }
 
+            //Close each connection
+            foreach(SwitchboardConnection Connection in Connections) { Connection.Close(); }
+
+            //Stop the cosa, and put down the pen
             Ears.Stop();
             ToLog("Server stopped");
             LogPen.Close();
         }
 
-        protected void ToLog(String LogItem) {
+        /// <summary>Writes the specified text to the logfile</summary>
+        public void ToLog(String LogItem) {
             String Line = "[" + DateTime.Now.ToShortTimeString() + "] " + LogItem;
             LogPen.WriteLine(Line);
             Console.WriteLine(Line);
         }
 
-        public List<SwitchboardConnection> GetConnections() {return Connections;}
+        /// <summary>Saves all users</summary>
+        protected void SaveUsers() {
+
+            if(File.Exists("SwitchboardUsers.txt")) { File.Delete("SwitchboardUsers.txt"); }
+            StreamWriter Pen = File.CreateText("SwitchboardUsers.txt");
+
+            foreach(SwitchboardUser User in Users) { Pen.WriteLine(User.ToString()); }
+            Pen.Close();
+        }
+
 
     }
-   
+
 
 }
