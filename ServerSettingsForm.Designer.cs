@@ -25,45 +25,43 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerSettingsForm));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Igtampe",
             "4",
             "1:00 AM 12/25/2019"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "LBL+",
             "Beta 1.0"}, -1);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.AnonymousCheckbox = new System.Windows.Forms.CheckBox();
+            this.MultiLoginCheckbox = new System.Windows.Forms.CheckBox();
+            this.PortTextbox = new System.Windows.Forms.TextBox();
             this.IPTextbox = new System.Windows.Forms.TextBox();
             this.ToolTipHandler = new System.Windows.Forms.ToolTip(this.components);
-            this.PortTextbox = new System.Windows.Forms.TextBox();
-            this.MultiLoginCheckbox = new System.Windows.Forms.CheckBox();
-            this.AnonymousCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.DeleteUserBTN = new System.Windows.Forms.Button();
+            this.SetPasswordBTN = new System.Windows.Forms.Button();
+            this.SetPLevelButton = new System.Windows.Forms.Button();
+            this.AddUserBTN = new System.Windows.Forms.Button();
             this.UsersListview = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddUserBTN = new System.Windows.Forms.Button();
-            this.SetPLevelButton = new System.Windows.Forms.Button();
-            this.SetPasswordBTN = new System.Windows.Forms.Button();
-            this.DeleteUserBTN = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.ExtensionSettingsBTN = new System.Windows.Forms.Button();
+            this.ExtensionsListview = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.OKBTN = new System.Windows.Forms.Button();
             this.CancelBTN = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.SwitchboardServerAbout = new System.Windows.Forms.Label();
+            this.WelcomeBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -99,21 +97,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Main Server Settings";
             // 
-            // IPTextbox
+            // AnonymousCheckbox
             // 
-            this.IPTextbox.Location = new System.Drawing.Point(38, 26);
-            this.IPTextbox.Name = "IPTextbox";
-            this.IPTextbox.Size = new System.Drawing.Size(100, 20);
-            this.IPTextbox.TabIndex = 2;
-            this.ToolTipHandler.SetToolTip(this.IPTextbox, resources.GetString("IPTextbox.ToolTip"));
-            // 
-            // PortTextbox
-            // 
-            this.PortTextbox.Location = new System.Drawing.Point(38, 52);
-            this.PortTextbox.Name = "PortTextbox";
-            this.PortTextbox.Size = new System.Drawing.Size(100, 20);
-            this.PortTextbox.TabIndex = 2;
-            this.ToolTipHandler.SetToolTip(this.PortTextbox, resources.GetString("PortTextbox.ToolTip"));
+            this.AnonymousCheckbox.AutoSize = true;
+            this.AnonymousCheckbox.Location = new System.Drawing.Point(38, 114);
+            this.AnonymousCheckbox.Name = "AnonymousCheckbox";
+            this.AnonymousCheckbox.Size = new System.Drawing.Size(108, 30);
+            this.AnonymousCheckbox.TabIndex = 4;
+            this.AnonymousCheckbox.Text = "Allow anonymous\r\nusers";
+            this.ToolTipHandler.SetToolTip(this.AnonymousCheckbox, resources.GetString("AnonymousCheckbox.ToolTip"));
+            this.AnonymousCheckbox.UseVisualStyleBackColor = true;
             // 
             // MultiLoginCheckbox
             // 
@@ -126,16 +119,21 @@
             this.ToolTipHandler.SetToolTip(this.MultiLoginCheckbox, resources.GetString("MultiLoginCheckbox.ToolTip"));
             this.MultiLoginCheckbox.UseVisualStyleBackColor = true;
             // 
-            // AnonymousCheckbox
+            // PortTextbox
             // 
-            this.AnonymousCheckbox.AutoSize = true;
-            this.AnonymousCheckbox.Location = new System.Drawing.Point(38, 114);
-            this.AnonymousCheckbox.Name = "AnonymousCheckbox";
-            this.AnonymousCheckbox.Size = new System.Drawing.Size(108, 30);
-            this.AnonymousCheckbox.TabIndex = 4;
-            this.AnonymousCheckbox.Text = "Allow anonymous\r\nusers";
-            this.ToolTipHandler.SetToolTip(this.AnonymousCheckbox, resources.GetString("AnonymousCheckbox.ToolTip"));
-            this.AnonymousCheckbox.UseVisualStyleBackColor = true;
+            this.PortTextbox.Location = new System.Drawing.Point(38, 52);
+            this.PortTextbox.Name = "PortTextbox";
+            this.PortTextbox.Size = new System.Drawing.Size(100, 20);
+            this.PortTextbox.TabIndex = 2;
+            this.ToolTipHandler.SetToolTip(this.PortTextbox, resources.GetString("PortTextbox.ToolTip"));
+            // 
+            // IPTextbox
+            // 
+            this.IPTextbox.Location = new System.Drawing.Point(38, 26);
+            this.IPTextbox.Name = "IPTextbox";
+            this.IPTextbox.Size = new System.Drawing.Size(100, 20);
+            this.IPTextbox.TabIndex = 2;
+            this.ToolTipHandler.SetToolTip(this.IPTextbox, resources.GetString("IPTextbox.ToolTip"));
             // 
             // groupBox2
             // 
@@ -151,6 +149,42 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "User Management";
             // 
+            // DeleteUserBTN
+            // 
+            this.DeleteUserBTN.Location = new System.Drawing.Point(328, 114);
+            this.DeleteUserBTN.Name = "DeleteUserBTN";
+            this.DeleteUserBTN.Size = new System.Drawing.Size(75, 23);
+            this.DeleteUserBTN.TabIndex = 7;
+            this.DeleteUserBTN.Text = "Delete User";
+            this.DeleteUserBTN.UseVisualStyleBackColor = true;
+            // 
+            // SetPasswordBTN
+            // 
+            this.SetPasswordBTN.Location = new System.Drawing.Point(328, 85);
+            this.SetPasswordBTN.Name = "SetPasswordBTN";
+            this.SetPasswordBTN.Size = new System.Drawing.Size(75, 23);
+            this.SetPasswordBTN.TabIndex = 6;
+            this.SetPasswordBTN.Text = "Set Pass";
+            this.SetPasswordBTN.UseVisualStyleBackColor = true;
+            // 
+            // SetPLevelButton
+            // 
+            this.SetPLevelButton.Location = new System.Drawing.Point(328, 55);
+            this.SetPLevelButton.Name = "SetPLevelButton";
+            this.SetPLevelButton.Size = new System.Drawing.Size(75, 23);
+            this.SetPLevelButton.TabIndex = 5;
+            this.SetPLevelButton.Text = "Set PLevel";
+            this.SetPLevelButton.UseVisualStyleBackColor = true;
+            // 
+            // AddUserBTN
+            // 
+            this.AddUserBTN.Location = new System.Drawing.Point(328, 24);
+            this.AddUserBTN.Name = "AddUserBTN";
+            this.AddUserBTN.Size = new System.Drawing.Size(75, 23);
+            this.AddUserBTN.TabIndex = 4;
+            this.AddUserBTN.Text = "Add User";
+            this.AddUserBTN.UseVisualStyleBackColor = true;
+            // 
             // UsersListview
             // 
             this.UsersListview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -159,7 +193,7 @@
             this.columnHeader3});
             this.UsersListview.HideSelection = false;
             this.UsersListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem3});
             this.UsersListview.Location = new System.Drawing.Point(6, 18);
             this.UsersListview.Name = "UsersListview";
             this.UsersListview.Size = new System.Drawing.Size(316, 126);
@@ -182,46 +216,10 @@
             this.columnHeader3.Text = "Last Login";
             this.columnHeader3.Width = 139;
             // 
-            // AddUserBTN
-            // 
-            this.AddUserBTN.Location = new System.Drawing.Point(328, 24);
-            this.AddUserBTN.Name = "AddUserBTN";
-            this.AddUserBTN.Size = new System.Drawing.Size(75, 23);
-            this.AddUserBTN.TabIndex = 4;
-            this.AddUserBTN.Text = "Add User";
-            this.AddUserBTN.UseVisualStyleBackColor = true;
-            // 
-            // SetPLevelButton
-            // 
-            this.SetPLevelButton.Location = new System.Drawing.Point(328, 55);
-            this.SetPLevelButton.Name = "SetPLevelButton";
-            this.SetPLevelButton.Size = new System.Drawing.Size(75, 23);
-            this.SetPLevelButton.TabIndex = 5;
-            this.SetPLevelButton.Text = "Set PLevel";
-            this.SetPLevelButton.UseVisualStyleBackColor = true;
-            // 
-            // SetPasswordBTN
-            // 
-            this.SetPasswordBTN.Location = new System.Drawing.Point(328, 85);
-            this.SetPasswordBTN.Name = "SetPasswordBTN";
-            this.SetPasswordBTN.Size = new System.Drawing.Size(75, 23);
-            this.SetPasswordBTN.TabIndex = 6;
-            this.SetPasswordBTN.Text = "Set Pass";
-            this.SetPasswordBTN.UseVisualStyleBackColor = true;
-            // 
-            // DeleteUserBTN
-            // 
-            this.DeleteUserBTN.Location = new System.Drawing.Point(328, 114);
-            this.DeleteUserBTN.Name = "DeleteUserBTN";
-            this.DeleteUserBTN.Size = new System.Drawing.Size(75, 23);
-            this.DeleteUserBTN.TabIndex = 7;
-            this.DeleteUserBTN.Text = "Delete User";
-            this.DeleteUserBTN.UseVisualStyleBackColor = true;
-            // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Controls.Add(this.listView1);
+            this.groupBox3.Controls.Add(this.ExtensionSettingsBTN);
+            this.groupBox3.Controls.Add(this.ExtensionsListview);
             this.groupBox3.Location = new System.Drawing.Point(12, 177);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(258, 207);
@@ -229,20 +227,30 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Extensions";
             // 
-            // listView1
+            // ExtensionSettingsBTN
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ExtensionSettingsBTN.Location = new System.Drawing.Point(172, 172);
+            this.ExtensionSettingsBTN.Name = "ExtensionSettingsBTN";
+            this.ExtensionSettingsBTN.Size = new System.Drawing.Size(75, 23);
+            this.ExtensionSettingsBTN.TabIndex = 4;
+            this.ExtensionSettingsBTN.Text = "Settings";
+            this.ExtensionSettingsBTN.UseVisualStyleBackColor = true;
+            this.ExtensionSettingsBTN.Click += new System.EventHandler(this.ExtensionSettingsBTN_Click);
+            // 
+            // ExtensionsListview
+            // 
+            this.ExtensionsListview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4,
             this.columnHeader5});
-            this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
-            this.listView1.Location = new System.Drawing.Point(9, 19);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(238, 147);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.ExtensionsListview.HideSelection = false;
+            this.ExtensionsListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem4});
+            this.ExtensionsListview.Location = new System.Drawing.Point(9, 19);
+            this.ExtensionsListview.Name = "ExtensionsListview";
+            this.ExtensionsListview.Size = new System.Drawing.Size(238, 147);
+            this.ExtensionsListview.TabIndex = 0;
+            this.ExtensionsListview.UseCompatibleStateImageBehavior = false;
+            this.ExtensionsListview.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader4
             // 
@@ -254,25 +262,15 @@
             this.columnHeader5.Text = "Version";
             this.columnHeader5.Width = 61;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(172, 172);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Settings";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.SwitchboardServerAbout);
-            this.groupBox4.Controls.Add(this.pictureBox1);
+            this.groupBox4.Controls.Add(this.WelcomeBox);
             this.groupBox4.Location = new System.Drawing.Point(276, 177);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(301, 178);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "About";
+            this.groupBox4.Text = "Welcome Message";
             // 
             // OKBTN
             // 
@@ -282,6 +280,7 @@
             this.OKBTN.TabIndex = 0;
             this.OKBTN.Text = "OK";
             this.OKBTN.UseVisualStyleBackColor = true;
+            this.OKBTN.Click += new System.EventHandler(this.OKBTN_Click);
             // 
             // CancelBTN
             // 
@@ -291,26 +290,15 @@
             this.CancelBTN.TabIndex = 0;
             this.CancelBTN.Text = "Cancel";
             this.CancelBTN.UseVisualStyleBackColor = true;
+            this.CancelBTN.Click += new System.EventHandler(this.CancelBTN_Click);
             // 
-            // pictureBox1
+            // WelcomeBox
             // 
-            this.pictureBox1.Image = global::SwitchboardServer.Properties.Resources.Switchboard__Wide_;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(289, 76);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // SwitchboardServerAbout
-            // 
-            this.SwitchboardServerAbout.Location = new System.Drawing.Point(6, 110);
-            this.SwitchboardServerAbout.Name = "SwitchboardServerAbout";
-            this.SwitchboardServerAbout.Size = new System.Drawing.Size(289, 56);
-            this.SwitchboardServerAbout.TabIndex = 2;
-            this.SwitchboardServerAbout.Text = "Switchboard Server (Version 1.0)\r\nBased on Switchboard Server (Version 1.0)\r\n\r\n(C" +
-    ")2020 Igtampe, No Rights Reserved\r\n";
-            this.SwitchboardServerAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.WelcomeBox.Location = new System.Drawing.Point(6, 19);
+            this.WelcomeBox.Multiline = true;
+            this.WelcomeBox.Name = "WelcomeBox";
+            this.WelcomeBox.Size = new System.Drawing.Size(289, 153);
+            this.WelcomeBox.TabIndex = 0;
             // 
             // ServerSettingsForm
             // 
@@ -325,13 +313,14 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ServerSettingsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -356,14 +345,13 @@
         private System.Windows.Forms.Button SetPLevelButton;
         private System.Windows.Forms.Button AddUserBTN;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Button ExtensionSettingsBTN;
+        private System.Windows.Forms.ListView ExtensionsListview;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button CancelBTN;
         private System.Windows.Forms.Button OKBTN;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label SwitchboardServerAbout;
+        private System.Windows.Forms.TextBox WelcomeBox;
     }
 }

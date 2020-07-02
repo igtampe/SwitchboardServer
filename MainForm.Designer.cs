@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Anonymous",
             "127.0.0.1",
             "1:00 AM, 12/25/1999",
@@ -38,6 +38,7 @@
             this.ConnectionDetailsButton = new System.Windows.Forms.Button();
             this.ServerSettingsButton = new System.Windows.Forms.Button();
             this.ServerBWorker = new System.ComponentModel.BackgroundWorker();
+            this.DisconnectButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // StartStopServerButton
@@ -59,7 +60,7 @@
             this.ConnectionsListView.FullRowSelect = true;
             this.ConnectionsListView.HideSelection = false;
             this.ConnectionsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.ConnectionsListView.Location = new System.Drawing.Point(12, 78);
             this.ConnectionsListView.Name = "ConnectionsListView";
             this.ConnectionsListView.Size = new System.Drawing.Size(369, 377);
@@ -104,13 +105,12 @@
             // 
             // ConnectionDetailsButton
             // 
-            this.ConnectionDetailsButton.Location = new System.Drawing.Point(306, 462);
+            this.ConnectionDetailsButton.Location = new System.Drawing.Point(225, 462);
             this.ConnectionDetailsButton.Name = "ConnectionDetailsButton";
             this.ConnectionDetailsButton.Size = new System.Drawing.Size(75, 23);
             this.ConnectionDetailsButton.TabIndex = 5;
             this.ConnectionDetailsButton.Text = "Details";
             this.ConnectionDetailsButton.UseVisualStyleBackColor = true;
-            this.ConnectionDetailsButton.Click += new System.EventHandler(this.ConnectionDetailsButton_Click);
             // 
             // ServerSettingsButton
             // 
@@ -130,6 +130,16 @@
             this.ServerBWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.RefreshListview);
             this.ServerBWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ServerDone);
             // 
+            // DisconnectButton
+            // 
+            this.DisconnectButton.Location = new System.Drawing.Point(306, 462);
+            this.DisconnectButton.Name = "DisconnectButton";
+            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
+            this.DisconnectButton.TabIndex = 4;
+            this.DisconnectButton.Text = "Disconnect";
+            this.DisconnectButton.UseVisualStyleBackColor = true;
+            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,6 +147,7 @@
             this.ClientSize = new System.Drawing.Size(401, 497);
             this.Controls.Add(this.ServerSettingsButton);
             this.Controls.Add(this.ConnectionDetailsButton);
+            this.Controls.Add(this.DisconnectButton);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.ConnectionsListView);
@@ -162,6 +173,7 @@
         private System.Windows.Forms.Button ConnectionDetailsButton;
         private System.Windows.Forms.Button ServerSettingsButton;
         public System.ComponentModel.BackgroundWorker ServerBWorker;
+        private System.Windows.Forms.Button DisconnectButton;
     }
 }
 

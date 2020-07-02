@@ -5,8 +5,8 @@ namespace Switchboard {
     public class SwitchboardUser {
 
         private readonly String Username;
-        private String Password;
-        private readonly int PermissionLevel;
+        protected String Password;
+        protected int PermissionLevel;
 
         private bool Online;
         private String LastOnline;
@@ -33,6 +33,12 @@ namespace Switchboard {
 
         /// <summary>Retrieves the username of this user</summary>
         public String GetUsername() { return Username; }
+
+        /// <summary>
+        /// Retreives the last time this user was online. 
+        /// If the user is online, it shows the last time he went offline.
+        /// </summary>
+        public String GetLastOnline() { return LastOnline; }
 
         /// <summary>Verifies the given password with the actual password of this user</summary>
         /// <param name="Password">Password to verify</param>

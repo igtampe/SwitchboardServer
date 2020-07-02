@@ -86,9 +86,12 @@ namespace Switchboard {
                                 foreach(SwitchboardUser User in HeadServer.Users) { if(User.GetUsername() == CommandSplit[1]) { myUser = User; break; } }
 
                                 if(myUser != null && myUser.VerifyPassword(CommandSplit[2])) {
-                                    User = myUser;
-                                    HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged in
-                                    Reply = "Successfully logged in as " + User.GetUsername();
+                                    if(myUser.IsOnline() && !HeadServer.AllowMultiLogin) { Reply = "Already logged in! Cannot let you log in again. Logout of the other connection first."; } 
+                                    else {
+                                        User = myUser;
+                                        HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged in
+                                        Reply = "Successfully logged in as " + User.GetUsername();
+                                    }
                                 } else {
                                     Reply = "Could not log you in, invalid login details";
                                 }

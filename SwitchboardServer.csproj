@@ -65,6 +65,18 @@
     <Compile Include="Switchboard\SwitchboardExtension.cs" />
     <Compile Include="Switchboard\SwitchboardServer.cs" />
     <Compile Include="Switchboard\SwitchboardUser.cs" />
+    <Compile Include="TinyForms\NumUpDownForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TinyForms\NumUpDownForm.Designer.cs">
+      <DependentUpon>NumUpDownForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TinyForms\TextboxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TinyForms\TextboxForm.Designer.cs">
+      <DependentUpon>TextboxForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +98,12 @@
     </Compile>
     <EmbeddedResource Include="ServerSettingsForm.resx">
       <DependentUpon>ServerSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TinyForms\NumUpDownForm.resx">
+      <DependentUpon>NumUpDownForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TinyForms\TextboxForm.resx">
+      <DependentUpon>TextboxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.cs</DependentUpon>

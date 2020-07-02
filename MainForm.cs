@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using Switchboard;
+using SwitchboardServer;
 
 namespace SwitchboardServerForm {
     public partial class MainForm:Form {
@@ -13,11 +14,19 @@ namespace SwitchboardServerForm {
         /// <summary>Main server this form holds</summary>
         private Switchboard.SwitchboardServer MainServer;
 
+        //These are here so we don't have to load them *during* the backgroundworker.
+        private String IP;
+        private int Port;
+        private bool AllowAnon;
+        private bool AllowMulti;
+        private String Welcome;
+
         //------------------------------[Constructor]------------------------------
 
         public MainForm() {
             InitializeComponent();
             ConnectionDetailsButton.Enabled = false;
+            DisconnectButton.Enabled = false;
 
             ConnectionsListView.Items.Clear();
             ConnectionsListView.Enabled = false;
@@ -30,10 +39,10 @@ namespace SwitchboardServerForm {
         /// <summary>Shwne selecting a user from the listview</summary>
         private void ConnectionsListView_SelectedIndexChanged(object sender,EventArgs e) {
             ConnectionDetailsButton.Enabled = true;
+            DisconnectButton.Enabled = true;
         }
 
         private void ConnectionDetailsButton_Click(object sender,EventArgs e) {
-
             //Make sure there is at least one connection selected.
             //Well, there will only ever be one because we disabled multi-select but shh its ok.
             if(ConnectionsListView.SelectedIndices.Count == 0) {
@@ -48,13 +57,11 @@ namespace SwitchboardServerForm {
             Switchboard.SwitchboardServer.SwitchboardConnection Connection = MainServer.GetConnections()[ConnectionIndex];
 
             //Pass the connection to a connection details form
-            
-            //TODO: Connection details form
 
+            //TODO: Connection details form
         }
 
         private void ServerSettingsButton_Click(object sender,EventArgs e) {
-
             //Make sure there is no main server since these settings cannot be modified while the server is running.
             if(MainServer != null) {
                 MessageBox.Show("Settings can only be modified while server isn't running!","n o",MessageBoxButtons.OK,MessageBoxIcon.Error);
@@ -62,19 +69,70 @@ namespace SwitchboardServerForm {
             }
 
             //Now launch the de-esta cosa. The settings form will handle loading settings.
-            
-            //TODO: Settings Details Form.
 
+            new ServerSettingsForm().ShowDialog();
+        }
+
+        private void DisconnectButton_Click(object sender,EventArgs e) {
+            //Make sure there is at least one connection selected.
+            //Well, there will only ever be one because we disabled multi-select but shh its ok.
+            if(ConnectionsListView.SelectedIndices.Count == 0) {
+                MessageBox.Show("Please select a connection to see its details","n o",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
+            //Get the connection index
+            int ConnectionIndex = ConnectionsListView.SelectedIndices[0];
+
+            //Ask the user
+            DialogResult Result = MessageBox.Show("Are you sure you want to disconnect this user?","Are you sure",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+
+            //if yes close the connection
+            if(Result == DialogResult.Yes) { MainServer.GetConnections()[ConnectionIndex].Close(); }   
+
+        }
+
+        private void LoadDefault() {
+            IP = SwitchboardConfiguration.DefaultIP;
+            Port = SwitchboardConfiguration.DefaultPort;
+            AllowAnon = SwitchboardConfiguration.AllowAnonymousDefault;
+            AllowMulti = SwitchboardConfiguration.MultiLoginDefault;
         }
 
         private void StartStopServerButton_Click(object sender,EventArgs e) {
             if(MainServer == null) {
 
+                //Load Server Settings
+                if(!File.Exists("SwitchboardServer.cfg")) {
+
+                    //Show a brief little welcome message!
+                    MessageBox.Show("Server is not configured! Run Server Settings at least once before starting server!","Welcome!",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    return;
+                } else {
+
+                    try {
+
+                        String[] Settings = File.ReadAllLines("SwitchboardServer.cfg")[0].Split(':');
+                        IP = Settings[0];
+                        Port = int.Parse(Settings[1]);
+                        AllowAnon = bool.Parse(Settings[2]);
+                        AllowMulti = bool.Parse(Settings[3]);
+
+                    } catch(Exception d) {
+                        MessageBox.Show("There was a problem interpretting your config file. Default values were loaded instead. \n\n" + d.Message + "\n" + d.StackTrace,"oopsie",MessageBoxButtons.OK,MessageBoxIcon.Error); ;
+                        LoadDefault();
+                    }
+
+                }
+
+                //Load Welcome Message
+                if(File.Exists("Welcome.txt")) { Welcome = File.ReadAllText("Welcome.txt"); } else { Welcome = SwitchboardConfiguration.DefaultWelcome; }
+
                 //Server is not started
                 StatusLabel.Text = "Status: Online";
                 StartStopServerButton.Text = "Stop";
                 ConnectionsListView.Enabled = Enabled;
-                
+
 
                 ServerBWorker.RunWorkerAsync();
 
@@ -85,11 +143,9 @@ namespace SwitchboardServerForm {
         //------------------------------[Server Background Worker]------------------------------
 
         private void ServerTime(object sender,DoWorkEventArgs e) {
-            
-            //TODO: Load Settings before execution
-            
+                                    
             //First lets start a server.
-            MainServer = new Switchboard.SwitchboardServer(this, "127.0.0.1",909,"H o l a",true);
+            MainServer = new Switchboard.SwitchboardServer(this, IP,Port,Welcome,AllowAnon, AllowMulti);
 
             //now 
             while(!ServerBWorker.CancellationPending) {

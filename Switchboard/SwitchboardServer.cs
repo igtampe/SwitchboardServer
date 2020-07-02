@@ -27,6 +27,9 @@ namespace Switchboard {
         /// <summary>Allow anonymous users</summary>
         protected bool AllowAnonymous;
 
+        /// <summary>Allows users to login from more than one connection</summary>
+        protected bool AllowMultiLogin;
+
         /// <summary>The Default, Anonymous User</summary>
         protected SwitchboardUser AnonymousUser;
 
@@ -114,7 +117,7 @@ namespace Switchboard {
         /// <param name="Port">Port to listen on</param>
         /// <param name="WelcomeMessage">Welcome message for each user.</param>
         /// <param name="AllowAnonymous">Allow Anonymous Users on this server.</param>
-        public SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous) {
+        public SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous, bool AllowMultiLogin) {
 
             //Get us our pen
             LogPen = File.AppendText("SwitchboardLog.log");
@@ -146,6 +149,8 @@ namespace Switchboard {
             //Allow Anonymous and generate the anonymous user.
             this.AllowAnonymous = AllowAnonymous;
             AnonymousUser = new SwitchboardUser("Anonymous","",0,"");
+
+            AllowMultiLogin = AllowMultiLogin;
 
             //Display a warning in case there are no users and we do not allow anonymous access.
             if(Users.Count == 0 && !AllowAnonymous) { ToLog("WARNING! No registered users and now annonymous access! You won't be able to actually use this server!"); }
