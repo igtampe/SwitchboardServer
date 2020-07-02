@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Anonymous",
             "127.0.0.1",
             "1:00 AM, 12/25/1999",
@@ -35,7 +35,6 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TitleLabel = new System.Windows.Forms.Label();
             this.StatusLabel = new System.Windows.Forms.Label();
-            this.DisconnectButton = new System.Windows.Forms.Button();
             this.ConnectionDetailsButton = new System.Windows.Forms.Button();
             this.ServerSettingsButton = new System.Windows.Forms.Button();
             this.ServerBWorker = new System.ComponentModel.BackgroundWorker();
@@ -60,7 +59,7 @@
             this.ConnectionsListView.FullRowSelect = true;
             this.ConnectionsListView.HideSelection = false;
             this.ConnectionsListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this.ConnectionsListView.Location = new System.Drawing.Point(12, 78);
             this.ConnectionsListView.Name = "ConnectionsListView";
             this.ConnectionsListView.Size = new System.Drawing.Size(369, 377);
@@ -103,23 +102,15 @@
             this.StatusLabel.TabIndex = 3;
             this.StatusLabel.Text = "Status: Offline";
             // 
-            // DisconnectButton
-            // 
-            this.DisconnectButton.Location = new System.Drawing.Point(306, 462);
-            this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
-            this.DisconnectButton.TabIndex = 4;
-            this.DisconnectButton.Text = "Disconnect";
-            this.DisconnectButton.UseVisualStyleBackColor = true;
-            // 
             // ConnectionDetailsButton
             // 
-            this.ConnectionDetailsButton.Location = new System.Drawing.Point(225, 462);
+            this.ConnectionDetailsButton.Location = new System.Drawing.Point(306, 462);
             this.ConnectionDetailsButton.Name = "ConnectionDetailsButton";
             this.ConnectionDetailsButton.Size = new System.Drawing.Size(75, 23);
             this.ConnectionDetailsButton.TabIndex = 5;
             this.ConnectionDetailsButton.Text = "Details";
             this.ConnectionDetailsButton.UseVisualStyleBackColor = true;
+            this.ConnectionDetailsButton.Click += new System.EventHandler(this.ConnectionDetailsButton_Click);
             // 
             // ServerSettingsButton
             // 
@@ -129,6 +120,7 @@
             this.ServerSettingsButton.TabIndex = 6;
             this.ServerSettingsButton.Text = "Settings";
             this.ServerSettingsButton.UseVisualStyleBackColor = true;
+            this.ServerSettingsButton.Click += new System.EventHandler(this.ServerSettingsButton_Click);
             // 
             // ServerBWorker
             // 
@@ -145,7 +137,6 @@
             this.ClientSize = new System.Drawing.Size(401, 497);
             this.Controls.Add(this.ServerSettingsButton);
             this.Controls.Add(this.ConnectionDetailsButton);
-            this.Controls.Add(this.DisconnectButton);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.TitleLabel);
             this.Controls.Add(this.ConnectionsListView);
@@ -168,7 +159,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Label TitleLabel;
         private System.Windows.Forms.Label StatusLabel;
-        private System.Windows.Forms.Button DisconnectButton;
         private System.Windows.Forms.Button ConnectionDetailsButton;
         private System.Windows.Forms.Button ServerSettingsButton;
         public System.ComponentModel.BackgroundWorker ServerBWorker;

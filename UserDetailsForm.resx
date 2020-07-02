@@ -117,47 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ToolTipHandler.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="AnonymousCheckbox.ToolTip" xml:space="preserve">
-    <value>Allow users to log in anonymously.
-
-By default when a user connects, they are marked
-anonymous until they attempt to log-in. Unticking
-this option will make non-logged-in users unable
-to use any commands (Except Login, and Welcome)
-
-Anonymous users have permission level 0.</value>
-  </data>
-  <data name="MultiLoginCheckbox.ToolTip" xml:space="preserve">
-    <value>Allow login credentials to be used in more than
-one connection at a time. 
-
-WARNING: If a user's connection is interrupted,
-the server may not realize this, and the account
-will be locked out until you force disconnect
-the user on this server, or the server is reset if
-this option is ticked!</value>
-  </data>
-  <data name="PortTextbox.ToolTip" xml:space="preserve">
-    <value>Port the server will be listenning on. If you plan on
-using the server through the internet, this is the port
-you need to forward!
-
-By default, this is 909. According to my research, it's
-unassigned, so no other application should use it.
-
-Feel free to modify it if you want, though.</value>
-  </data>
-  <data name="IPTextbox.ToolTip" xml:space="preserve">
-    <value>IP this server will be listenning on
-
-It's recommended that the server machine should have a 
-static local IP. Check your network adapter settings if you
-don't know what your local IP is by using IPCONFIG.
-
-By default, this is 127.0.0.1, or localhost. This means the server
-will only be accessible on your machine!</value>
-  </data>
 </root>

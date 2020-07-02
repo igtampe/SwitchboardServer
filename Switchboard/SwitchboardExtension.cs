@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace Switchboard {
 
@@ -17,6 +18,13 @@ namespace Switchboard {
 
         /// <summary>Should executes every tick</summary>
         public virtual void Tick() { }
+
+        /// <summary>Modifies settings for this extension</summary>
+        public virtual void Settings() { MessageBox.Show("Extension has no settings",Name,MessageBoxButtons.OK,MessageBoxIcon.Information); }
+
+        //In implementation, the settings function should probably launch a tiny winform. 
+        //Your extension, should it have settings, should be able to save them, and load them when being instantiated.
+        //Settings subroutine should only launch while the server *isn't running*
 
         /// <summary>Parses a given command.</summary>
         /// <param name="User">USER attempting to execute a command within this extension</param>
