@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+
 using Switchboard;
+using TinyForms;
 
 namespace SwitchboardServer {
     public partial class ServerSettingsForm:Form {
@@ -144,10 +146,59 @@ namespace SwitchboardServer {
 
         }
 
+        private void SetPLevelButton_Click(object sender,EventArgs e) {
+            int index = GetSelectedUserIndex();
+            if(index == -2) { return; }
+
+            //Make a tinyform with a numeric updown
+            NumUpDownForm PLevelForm = new NumUpDownForm("Set Permission Level","Permission Level",0,100);
+            PLevelForm.numericUpDown1.Value = Users[index].GetPLevel(); //set the numeric updown's value to the current plevel
+
+            //if OK, update PLevel.
+            if(PLevelForm.ShowDialog() == DialogResult.OK) { Users[index].SetPLevel(decimal.ToInt32(PLevelForm.numericUpDown1.Value)); }
+
+
+        }
+
+        private void SetPasswordBTN_Click(object sender,EventArgs e) {
+            int index = GetSelectedUserIndex();
+            if(index == -2) { return; }
+
+            //Make a tinyform with a numeric updown
+            TextboxForm PasswordForm = new TextboxForm("Set Password","Password");
+            PasswordForm.TheBox.PasswordChar = '*';
+
+            //if OK, update PLevel.
+            if(PasswordForm.ShowDialog() == DialogResult.OK) { Users[index].SetPassword(PasswordForm.TheBox.Text); }
+
+        }
+
+        private void DeleteUserBTN_Click(object sender,EventArgs e) {
+            int index = GetSelectedUserIndex();
+            if(index == -2) { return; }
+
+            DialogResult AreYouSure = MessageBox.Show("Are you sure you want to delete " + Users[index].GetUsername() + "?","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+
+            if(AreYouSure == DialogResult.Yes) { 
+                Users.RemoveAt(index); //remove them from the list
+                UsersListview.Items.RemoveAt(index); //Remove them from the listview as well.
+            }
+
+        }
+
         //------------------------------[Other Stuff]------------------------------
 
+        private int GetSelectedUserIndex() {
+            if(UsersListview.SelectedItems.Count == 0) {
+                MessageBox.Show("No user is selected! Select a user to use this option","oopsie",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return -2; 
+            }
+
+            return UsersListview.SelectedIndices[0];
+        }
+
         /// <summary>Loads default values</summary>
-        public void LoadDefault() {
+        private void LoadDefault() {
             IPTextbox.Text = SwitchboardConfiguration.DefaultIP;
             PortTextbox.Text = SwitchboardConfiguration.DefaultPort.ToString();
             AnonymousCheckbox.Checked = SwitchboardConfiguration.AllowAnonymousDefault;

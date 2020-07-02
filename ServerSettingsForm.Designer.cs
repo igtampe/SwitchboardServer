@@ -25,11 +25,11 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerSettingsForm));
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Igtampe",
             "4",
             "1:00 AM 12/25/2019"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "LBL+",
             "Beta 1.0"}, -1);
             this.label1 = new System.Windows.Forms.Label();
@@ -55,9 +55,9 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.WelcomeBox = new System.Windows.Forms.TextBox();
             this.OKBTN = new System.Windows.Forms.Button();
             this.CancelBTN = new System.Windows.Forms.Button();
-            this.WelcomeBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -157,6 +157,7 @@
             this.DeleteUserBTN.TabIndex = 7;
             this.DeleteUserBTN.Text = "Delete User";
             this.DeleteUserBTN.UseVisualStyleBackColor = true;
+            this.DeleteUserBTN.Click += new System.EventHandler(this.DeleteUserBTN_Click);
             // 
             // SetPasswordBTN
             // 
@@ -166,6 +167,7 @@
             this.SetPasswordBTN.TabIndex = 6;
             this.SetPasswordBTN.Text = "Set Pass";
             this.SetPasswordBTN.UseVisualStyleBackColor = true;
+            this.SetPasswordBTN.Click += new System.EventHandler(this.SetPasswordBTN_Click);
             // 
             // SetPLevelButton
             // 
@@ -175,6 +177,7 @@
             this.SetPLevelButton.TabIndex = 5;
             this.SetPLevelButton.Text = "Set PLevel";
             this.SetPLevelButton.UseVisualStyleBackColor = true;
+            this.SetPLevelButton.Click += new System.EventHandler(this.SetPLevelButton_Click);
             // 
             // AddUserBTN
             // 
@@ -193,7 +196,7 @@
             this.columnHeader3});
             this.UsersListview.HideSelection = false;
             this.UsersListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem5});
             this.UsersListview.Location = new System.Drawing.Point(6, 18);
             this.UsersListview.Name = "UsersListview";
             this.UsersListview.Size = new System.Drawing.Size(316, 126);
@@ -244,7 +247,7 @@
             this.columnHeader5});
             this.ExtensionsListview.HideSelection = false;
             this.ExtensionsListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4});
+            listViewItem6});
             this.ExtensionsListview.Location = new System.Drawing.Point(9, 19);
             this.ExtensionsListview.Name = "ExtensionsListview";
             this.ExtensionsListview.Size = new System.Drawing.Size(238, 147);
@@ -272,6 +275,14 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Welcome Message";
             // 
+            // WelcomeBox
+            // 
+            this.WelcomeBox.Location = new System.Drawing.Point(6, 19);
+            this.WelcomeBox.Multiline = true;
+            this.WelcomeBox.Name = "WelcomeBox";
+            this.WelcomeBox.Size = new System.Drawing.Size(289, 153);
+            this.WelcomeBox.TabIndex = 0;
+            // 
             // OKBTN
             // 
             this.OKBTN.Location = new System.Drawing.Point(415, 361);
@@ -291,14 +302,6 @@
             this.CancelBTN.Text = "Cancel";
             this.CancelBTN.UseVisualStyleBackColor = true;
             this.CancelBTN.Click += new System.EventHandler(this.CancelBTN_Click);
-            // 
-            // WelcomeBox
-            // 
-            this.WelcomeBox.Location = new System.Drawing.Point(6, 19);
-            this.WelcomeBox.Multiline = true;
-            this.WelcomeBox.Name = "WelcomeBox";
-            this.WelcomeBox.Size = new System.Drawing.Size(289, 153);
-            this.WelcomeBox.TabIndex = 0;
             // 
             // ServerSettingsForm
             // 

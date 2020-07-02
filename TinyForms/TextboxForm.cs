@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SwitchboardServer.TinyForms {
+namespace TinyForms {
     public partial class TextboxForm:Form {
         public TextboxForm(string caption, string title) {
             InitializeComponent();

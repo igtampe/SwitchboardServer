@@ -1,4 +1,4 @@
-﻿namespace SwitchboardServer.TinyForms {
+﻿namespace TinyForms {
     partial class TextboxForm {
         /// <summary>
         /// Required designer variable.

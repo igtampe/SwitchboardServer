@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SwitchboardServer.TinyForms {
+namespace TinyForms {
     public partial class NumUpDownForm:Form {
         public NumUpDownForm(string caption, string title, int min, int max) {
             InitializeComponent();
