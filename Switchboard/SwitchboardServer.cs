@@ -84,7 +84,7 @@ namespace Switchboard {
                     case "HELP":
                         //Show Server Help (Or the help of a specific command)
                         if(CommandSplit.Length == 1) { return Help(); }
-                        foreach(SwitchboardExtension Extension in HeadServer.Extensions) {if(Extension.GetName().ToUpper() == CommandSplit[1]) { return Extension.Help(); }}
+                        foreach(SwitchboardExtension Extension in HeadServer.Extensions) { if(Extension.GetName().ToUpper() == CommandSplit[1].ToUpper()) { return Extension.Help(); }}
                         return "Could not find extension " + CommandSplit[1];
 
                     case "SETPASS":
