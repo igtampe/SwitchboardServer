@@ -221,6 +221,8 @@ namespace Switchboard {
             //Close each connection
             foreach(SwitchboardConnection Connection in Connections) { Connection.Close(); }
 
+            SaveUsers(); //Save users when we close.
+
             //Stop the cosa, and put down the pen
             Ears.Stop();
             ToLog("Server stopped");

@@ -54,7 +54,7 @@ namespace Switchboard {
             public void Tick() {
 
                 //If there's data available.
-                if(River.DataAvailable) {
+                if(IsConnected && River.DataAvailable) {
                     HeadServer.ToLog("Attempting to read message from " + IP.Address.ToString());
 
                     //Save all the bytes to an array
@@ -79,7 +79,8 @@ namespace Switchboard {
                             Reply = HeadServer.GetWelcomeMessage();
                             break;
                         case "LOGIN":
-                            if(CommandSplit.Length != 3) { Reply = "Could not log you in, invalid login details"; } else {
+                            if(User != HeadServer.AnonymousUser) { Reply = "You're already logged in!"; } 
+                            else if(CommandSplit.Length != 3) { Reply = "Could not log you in, invalid login details"; } else {
                                 SwitchboardUser myUser = null;
 
                                 //Find the user.
@@ -89,6 +90,7 @@ namespace Switchboard {
                                     if(myUser.IsOnline() && !HeadServer.AllowMultiLogin) { Reply = "Already logged in! Cannot let you log in again. Logout of the other connection first."; } 
                                     else {
                                         User = myUser;
+                                        User.SetOnline(true);
                                         HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged in
                                         Reply = "Successfully logged in as " + User.GetUsername();
                                     }
@@ -106,8 +108,7 @@ namespace Switchboard {
                             }
                             break;
                         case "CLOSE":
-                            River.Close();
-                            TheSocket.Close();
+                            Close();
                             return;
                         default:
                             if(!HeadServer.AllowAnonymous && User == HeadServer.AnonymousUser) { Reply = "You're unauthorized to run any other commands."; } else {
@@ -135,6 +136,7 @@ namespace Switchboard {
 
             /// <summary>Close the connection</summary>
             public void Close() {
+                if(User != HeadServer.AnonymousUser) { User.SetOnline(false); }
                 River.Close();
                 TheSocket.Close();
             }

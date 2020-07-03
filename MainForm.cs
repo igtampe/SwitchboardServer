@@ -88,7 +88,10 @@ namespace SwitchboardServerForm {
             DialogResult Result = MessageBox.Show("Are you sure you want to disconnect this user?","Are you sure",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
 
             //if yes close the connection
-            if(Result == DialogResult.Yes) { MainServer.GetConnections()[ConnectionIndex].Close(); }   
+            if(Result == DialogResult.Yes) { 
+                MainServer.GetConnections()[ConnectionIndex].Close();
+                ServerBWorker.ReportProgress(0);
+            }   
 
         }
 
@@ -173,6 +176,7 @@ namespace SwitchboardServerForm {
             StatusLabel.Text = "Status: Offline";
             StartStopServerButton.Text = "Start Server";
             ConnectionDetailsButton.Enabled = false;
+            DisconnectButton.Enabled = false;
 
             ConnectionsListView.Items.Clear();
             ConnectionsListView.Enabled = false;
