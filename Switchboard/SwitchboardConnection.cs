@@ -83,7 +83,7 @@ namespace Switchboard {
                                 SwitchboardUser myUser = null;
 
                                 //Find the user.
-                                foreach(SwitchboardUser User in HeadServer.Users) { if(User.GetUsername() == CommandSplit[1]) { myUser = User; break; } }
+                                foreach(SwitchboardUser User in HeadServer.Users) { if(User.GetUsername().ToUpper() == CommandSplit[1].ToUpper()) { myUser = User; break; } }
 
                                 if(myUser != null && myUser.VerifyPassword(CommandSplit[2])) {
                                     if(myUser.IsOnline() && !HeadServer.AllowMultiLogin) { Reply = "Already logged in! Cannot let you log in again. Logout of the other connection first."; } 
