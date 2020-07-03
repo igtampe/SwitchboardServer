@@ -16,12 +16,13 @@ namespace SwitchboardServer {
         private readonly List<SwitchboardExtension> Extensions;
 
         /// <summary>List that holds all of the users</summary>
-        private readonly List<ManageableUser> Users;
+        private List<SwitchboardUser> Users;
 
         //------------------------------[Internal Classes]------------------------------
 
         private class ManageableUser:SwitchboardUser{
             public ManageableUser(String Userstring):base(Userstring) { }
+            public ManageableUser(String Username,String Password,int PLevel,String LastOnline):base(Username,Password,PLevel,LastOnline) { }
 
             public void SetPassword(String Password) { this.Password = Password; }
             public void SetPLevel(int PLevel) { PermissionLevel = PLevel; }
@@ -67,24 +68,16 @@ namespace SwitchboardServer {
             }
 
             //Load Users the same way the server does.
-            Users = new List<ManageableUser>();
+            Users = new List<SwitchboardUser>();
             if(File.Exists("SwitchboardUsers.txt")) {
                 //Read all lines from the file
                 String[] UserStrings = File.ReadAllLines("SwitchboardUsers.txt");
 
                 //For each userstring, add a new user
-                foreach(String UserString in UserStrings) {
-                    ManageableUser User = new ManageableUser(UserString);
+                foreach(String UserString in UserStrings) {Users.Add(new ManageableUser(UserString));}
 
-                    Users.Add(User);
+                UpdateUserListView();
 
-                    ListViewItem NLI = new ListViewItem(User.GetUsername());
-                    NLI.SubItems.Add(User.GetPLevel().ToString());
-                    NLI.SubItems.Add(User.GetLastOnline());
-                    UsersListview.Items.Add(NLI);
-
-                                     
-                }
             }
 
             //Load extensions and display them.
@@ -146,18 +139,31 @@ namespace SwitchboardServer {
 
         }
 
+        private void AddUserBTN_Click(object sender,EventArgs e) {
+
+            //First let's create the new form
+            NewUserForm Form = new NewUserForm(ref Users);
+            if(Form.ShowDialog() == DialogResult.OK) {
+                //Use the details on the form to make a new user.
+
+                ManageableUser NewUser = new ManageableUser(Form.UsernameTextBox.Text,Form.PasswordTextBox.Text,Decimal.ToInt32(Form.PermissionLevelUD.Value),"Never");
+                Users.Add(NewUser);
+            }
+
+            UpdateUserListView();
+        }
+
         private void SetPLevelButton_Click(object sender,EventArgs e) {
             int index = GetSelectedUserIndex();
             if(index == -2) { return; }
 
             //Make a tinyform with a numeric updown
             NumUpDownForm PLevelForm = new NumUpDownForm("Set Permission Level","Permission Level",0,100);
-            PLevelForm.numericUpDown1.Value = Users[index].GetPLevel(); //set the numeric updown's value to the current plevel
+            PLevelForm.numericUpDown1.Value = ((ManageableUser)Users[index]).GetPLevel(); //set the numeric updown's value to the current plevel
 
             //if OK, update PLevel.
-            if(PLevelForm.ShowDialog() == DialogResult.OK) { Users[index].SetPLevel(decimal.ToInt32(PLevelForm.numericUpDown1.Value)); }
-
-
+            if(PLevelForm.ShowDialog() == DialogResult.OK) { ((ManageableUser)Users[index]).SetPLevel(decimal.ToInt32(PLevelForm.numericUpDown1.Value)); }
+            UpdateUserListView();
         }
 
         private void SetPasswordBTN_Click(object sender,EventArgs e) {
@@ -169,8 +175,8 @@ namespace SwitchboardServer {
             PasswordForm.TheBox.PasswordChar = '*';
 
             //if OK, update PLevel.
-            if(PasswordForm.ShowDialog() == DialogResult.OK) { Users[index].SetPassword(PasswordForm.TheBox.Text); }
-
+            if(PasswordForm.ShowDialog() == DialogResult.OK) { ((ManageableUser)Users[index]).SetPassword(PasswordForm.TheBox.Text); }
+            UpdateUserListView();
         }
 
         private void DeleteUserBTN_Click(object sender,EventArgs e) {
@@ -181,7 +187,7 @@ namespace SwitchboardServer {
 
             if(AreYouSure == DialogResult.Yes) { 
                 Users.RemoveAt(index); //remove them from the list
-                UsersListview.Items.RemoveAt(index); //Remove them from the listview as well.
+                UpdateUserListView();
             }
 
         }
@@ -195,6 +201,17 @@ namespace SwitchboardServer {
             }
 
             return UsersListview.SelectedIndices[0];
+        }
+
+        private void UpdateUserListView() {
+            UsersListview.Items.Clear();
+            foreach(ManageableUser User in Users) {
+                ListViewItem NLI = new ListViewItem(User.GetUsername());
+                NLI.SubItems.Add(User.GetPLevel().ToString());
+                NLI.SubItems.Add(User.GetLastOnline());
+                UsersListview.Items.Add(NLI);
+            }
+
         }
 
         /// <summary>Loads default values</summary>

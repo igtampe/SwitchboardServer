@@ -25,11 +25,11 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerSettingsForm));
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "Igtampe",
             "4",
             "1:00 AM 12/25/2019"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "LBL+",
             "Beta 1.0"}, -1);
             this.label1 = new System.Windows.Forms.Label();
@@ -187,6 +187,7 @@
             this.AddUserBTN.TabIndex = 4;
             this.AddUserBTN.Text = "Add User";
             this.AddUserBTN.UseVisualStyleBackColor = true;
+            this.AddUserBTN.Click += new System.EventHandler(this.AddUserBTN_Click);
             // 
             // UsersListview
             // 
@@ -196,7 +197,7 @@
             this.columnHeader3});
             this.UsersListview.HideSelection = false;
             this.UsersListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5});
+            listViewItem7});
             this.UsersListview.Location = new System.Drawing.Point(6, 18);
             this.UsersListview.Name = "UsersListview";
             this.UsersListview.Size = new System.Drawing.Size(316, 126);
@@ -247,7 +248,7 @@
             this.columnHeader5});
             this.ExtensionsListview.HideSelection = false;
             this.ExtensionsListview.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem6});
+            listViewItem8});
             this.ExtensionsListview.Location = new System.Drawing.Point(9, 19);
             this.ExtensionsListview.Name = "ExtensionsListview";
             this.ExtensionsListview.Size = new System.Drawing.Size(238, 147);
