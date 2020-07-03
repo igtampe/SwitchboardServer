@@ -55,7 +55,7 @@ namespace Switchboard {
 
             //~~~~~~~~~~~~~~{Functions}~~~~~~~~~~~~~~
             public override string Help() {
-                return "Switchboard Main Extension [Version " + Version + "\n" +
+                return "Switchboard Main Extension [Version " + Version + "]\n" +
                     "\n" +
                     "Available Commands: \n" +
                     "VER                            : Displays Server Version\n" +
@@ -150,7 +150,7 @@ namespace Switchboard {
             this.AllowAnonymous = AllowAnonymous;
             AnonymousUser = new SwitchboardUser("Anonymous","",0,"");
 
-            AllowMultiLogin = AllowMultiLogin;
+            this.AllowMultiLogin = AllowMultiLogin;
 
             //Display a warning in case there are no users and we do not allow anonymous access.
             if(Users.Count == 0 && !AllowAnonymous) { ToLog("WARNING! No registered users and now annonymous access! You won't be able to actually use this server!"); }
@@ -173,7 +173,7 @@ namespace Switchboard {
         /// <returns></returns>
         protected string GetWelcomeMessage() {
             if(AllowAnonymous) { return WelcomeMessage; }
-            return WelcomeMessage + "\n\nThis server requires that you log in. Use Login (Username) (Password) to log in.";
+            return WelcomeMessage +Environment.NewLine+Environment.NewLine+ "This server requires that you log in. Use Login (Username) (Password) to log in.";
         }
 
         /// <summary>Gets All Active Connections</summary>

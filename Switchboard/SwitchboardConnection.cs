@@ -22,7 +22,7 @@ namespace Switchboard {
             private readonly NetworkStream River;
             private readonly Socket TheSocket;
 
-            private readonly List<string> PreviousCommands;
+            private string ConsolePreview;
             public bool IsConnected => TheSocket.Connected;
 
             //~~~~~~~~~~~~~~{Constructor}~~~~~~~~~~~~~~
@@ -38,12 +38,12 @@ namespace Switchboard {
                 HeadServer.ToLog("New user connected from " + IP.Address.ToString());
 
                 User = HeadServer.AnonymousUser;
-                PreviousCommands = new List<String>();
+                ConsolePreview = "";
 
             }
 
             //~~~~~~~~~~~~~~{Getters}~~~~~~~~~~~~~~
-            public List<String> GetPrevCommands() { return PreviousCommands; }
+            public string GetConsolePreview() { return ConsolePreview; }
             public SwitchboardUser GetUser() { return User; }
             public DateTime GetConnectedSince() { return ConnectedSince; }
             public IPEndPoint GetIP() { return IP; }
@@ -68,7 +68,7 @@ namespace Switchboard {
                     Command = Command.Replace("\0","");
 
                     //Add this to the list of commands.
-                    PreviousCommands.Add(Command);
+                    ConsolePreview += IP.Address + "> " + Command;
 
                     //Now let's try to parse it.
                     String Reply = "";
@@ -132,6 +132,7 @@ namespace Switchboard {
             public void Send(String Data) {
                 Byte[] ReturnBytes = System.Text.Encoding.ASCII.GetBytes(Data);
                 River.Write(ReturnBytes,0,ReturnBytes.Length);
+                ConsolePreview += Environment.NewLine + Data.Replace("\n",Environment.NewLine) + Environment.NewLine + Environment.NewLine;
             }
 
             /// <summary>Close the connection</summary>

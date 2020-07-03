@@ -59,6 +59,8 @@ namespace SwitchboardServerForm {
             //Pass the connection to a connection details form
 
             //TODO: Connection details form
+            new UserDetailsForm(ref Connection).Show();
+
         }
 
         private void ServerSettingsButton_Click(object sender,EventArgs e) {
@@ -93,13 +95,6 @@ namespace SwitchboardServerForm {
                 ServerBWorker.ReportProgress(0);
             }   
 
-        }
-
-        private void LoadDefault() {
-            IP = SwitchboardConfiguration.DefaultIP;
-            Port = SwitchboardConfiguration.DefaultPort;
-            AllowAnon = SwitchboardConfiguration.AllowAnonymousDefault;
-            AllowMulti = SwitchboardConfiguration.MultiLoginDefault;
         }
 
         private void StartStopServerButton_Click(object sender,EventArgs e) {
@@ -142,6 +137,18 @@ namespace SwitchboardServerForm {
             } else { ServerBWorker.CancelAsync(); } //server is started, cancel it.
 
         }
+
+        //------------------------------[Other Stuff]------------------------------
+
+        private void LoadDefault() {
+            IP = SwitchboardConfiguration.DefaultIP;
+            Port = SwitchboardConfiguration.DefaultPort;
+            AllowAnon = SwitchboardConfiguration.AllowAnonymousDefault;
+            AllowMulti = SwitchboardConfiguration.MultiLoginDefault;
+        }
+
+        /// <summary>TODO: Ensure the server is closed properly when closing</summary>
+        private void MainForm_Close(object sender,EventArgs e) {}
 
         //------------------------------[Server Background Worker]------------------------------
 

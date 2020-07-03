@@ -68,6 +68,7 @@
             this.ConnectionsListView.UseCompatibleStateImageBehavior = false;
             this.ConnectionsListView.View = System.Windows.Forms.View.Details;
             this.ConnectionsListView.SelectedIndexChanged += new System.EventHandler(this.ConnectionsListView_SelectedIndexChanged);
+            this.ConnectionsListView.DoubleClick += new System.EventHandler(this.ConnectionDetailsButton_Click);
             // 
             // columnHeader1
             // 
@@ -111,6 +112,7 @@
             this.ConnectionDetailsButton.TabIndex = 5;
             this.ConnectionDetailsButton.Text = "Details";
             this.ConnectionDetailsButton.UseVisualStyleBackColor = true;
+            this.ConnectionDetailsButton.Click += new System.EventHandler(this.ConnectionDetailsButton_Click);
             // 
             // ServerSettingsButton
             // 
@@ -156,6 +158,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Switchboard Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(MainForm_Close);
             this.ResumeLayout(false);
             this.PerformLayout();
 

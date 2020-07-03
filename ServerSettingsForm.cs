@@ -26,7 +26,6 @@ namespace SwitchboardServer {
 
             public void SetPassword(String Password) { this.Password = Password; }
             public void SetPLevel(int PLevel) { PermissionLevel = PLevel; }
-            public int GetPLevel() { return PermissionLevel; }
         }
 
         //------------------------------[Constructor]------------------------------

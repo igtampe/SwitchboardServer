@@ -39,6 +39,9 @@ namespace Switchboard {
         /// If the user is online, it shows the last time he went offline.
         /// </summary>
         public String GetLastOnline() { return LastOnline; }
+        
+        /// <summary>Retreives the permission level of this user</summary>
+        public int GetPLevel() { return PermissionLevel; }
 
         /// <summary>Verifies the given password with the actual password of this user</summary>
         /// <param name="Password">Password to verify</param>
