@@ -79,32 +79,33 @@ namespace Switchboard {
                             Reply = HeadServer.GetWelcomeMessage();
                             break;
                         case "LOGIN":
-                            if(User != HeadServer.AnonymousUser) { Reply = "You're already logged in!"; } 
-                            else if(CommandSplit.Length != 3) { Reply = "Could not log you in, invalid login details"; } else {
+                            if(User != HeadServer.AnonymousUser) { Reply = "2"; } //ALREADY
+                            else if(CommandSplit.Length != 3) { Reply = "1"; }  //INVALID
+                            else {
                                 SwitchboardUser myUser = null;
 
                                 //Find the user.
                                 foreach(SwitchboardUser User in HeadServer.Users) { if(User.GetUsername().ToUpper() == CommandSplit[1].ToUpper()) { myUser = User; break; } }
 
                                 if(myUser != null && myUser.VerifyPassword(CommandSplit[2])) {
-                                    if(myUser.IsOnline() && !HeadServer.AllowMultiLogin) { Reply = "Already logged in! Cannot let you log in again. Logout of the other connection first."; } 
+                                    if(myUser.IsOnline() && !HeadServer.AllowMultiLogin) { Reply = "3"; }  //OTHERLOCALE
                                     else {
                                         User = myUser;
                                         User.SetOnline(true);
                                         HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged in
-                                        Reply = "Successfully logged in as " + User.GetUsername();
+                                        Reply = "0"; //SUCCESS
                                     }
                                 } else {
-                                    Reply = "Could not log you in, invalid login details";
+                                    Reply = "1"; //INVALID
                                 }
                             }
                             break;
                         case "LOGOUT":
-                            if(User == HeadServer.AnonymousUser) { Reply = "You're already logged out!"; } else {
+                            if(User == HeadServer.AnonymousUser) { Reply = "0"; } else {
                                 User.SetOnline(false);
                                 User = HeadServer.AnonymousUser;
                                 HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged out.
-                                Reply = "You've been successfully logged out.";
+                                Reply = "1";
                             }
                             break;
                         case "CLOSE":
