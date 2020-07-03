@@ -57,8 +57,6 @@ namespace SwitchboardServerForm {
             Switchboard.SwitchboardServer.SwitchboardConnection Connection = MainServer.GetConnections()[ConnectionIndex];
 
             //Pass the connection to a connection details form
-
-            //TODO: Connection details form
             new UserDetailsForm(ref Connection).Show();
 
         }
@@ -160,7 +158,7 @@ namespace SwitchboardServerForm {
             //now 
             while(!ServerBWorker.CancellationPending) {
                 MainServer.Tick();
-                Thread.Sleep(100);  //sleep to make sure this doesn't drive my computer insane
+                Thread.Sleep(50);  //sleep to make sure this doesn't drive my computer insane
             }
 
             //if there is a cancelation pending:
