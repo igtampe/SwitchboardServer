@@ -59,15 +59,5 @@ namespace SwitchboardServer.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Switchboard__Wide_ {
-            get {
-                object obj = ResourceManager.GetObject("Switchboard__Wide_", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

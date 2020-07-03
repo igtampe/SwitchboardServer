@@ -28,6 +28,7 @@
             "127.0.0.1",
             "1:00 AM, 12/25/1999",
             "Idle"}, -1);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.StartStopServerButton = new System.Windows.Forms.Button();
             this.ConnectionsListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -155,10 +156,11 @@
             this.Controls.Add(this.ConnectionsListView);
             this.Controls.Add(this.StartStopServerButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Switchboard Server";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(MainForm_Close);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Close);
             this.ResumeLayout(false);
             this.PerformLayout();
 
