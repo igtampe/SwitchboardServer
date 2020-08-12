@@ -4,6 +4,9 @@ Switchboard is the next evolutionary step from SmokeSignal. Unlike it, Switchboa
 
 See the client here: https://github.com/igtampe/SwitchboardClient
 
+![Switchboard Ecosystem](https://raw.githubusercontent.com/igtampe/SwitchboardServer/master/Images/Switchboard%20Ecosystem.png)<br>
+_The Switchboard Ecosystem with the server on the right_
+
 ## GUI
 No more console based nonsense. Switchboard shows you all active connections, and while the server is offline, allows you to easily modify server and extension settings.
 
